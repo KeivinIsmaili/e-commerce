@@ -12,15 +12,16 @@ import jakarta.persistence.Column;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "ROLES")
+@Table(name = "roles")
 public class Role implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="id", unique = true, nullable=false, length=20)
     private Integer id;
 
     @Enumerated(EnumType.STRING)
-    @Column(length = 20)
+    @Column(name = "name", length = 20)
     private ERole name;
 
     public Role() {}

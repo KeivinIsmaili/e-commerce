@@ -17,7 +17,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "USERS",
+@Table(name = "users",
     uniqueConstraints = {
         @UniqueConstraint(columnNames = "username"),
         @UniqueConstraint(columnNames = "email")
@@ -27,10 +27,17 @@ public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="id", unique = true, nullable=false)
     private Long id;
 
-    @Column(name="username", unique = true, nullable=false, length=20)
+    @Column(name="username", unique = true, nullable=false, length=30)
     private String username;
+
+    @Column(name="firstName", nullable=false, length=30)
+    private String firstName;
+
+    @Column(name="lastName", nullable=false, length=30)
+    private String lastName;
 
     @Column(name="password", nullable=false, length=30)
     private String password;
