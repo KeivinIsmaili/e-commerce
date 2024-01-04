@@ -1,4 +1,4 @@
-package model;
+package com.ecommerce.project.security.model;
 
 public enum ERole {
     ROLE_USER,
