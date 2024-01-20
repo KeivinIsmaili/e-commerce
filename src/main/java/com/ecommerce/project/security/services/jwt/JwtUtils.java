@@ -2,19 +2,18 @@ package com.ecommerce.project.security.services.jwt;
 
 
 import com.ecommerce.project.security.services.userservice.UserDetailsImpl;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
-import io.jsonwebtoken.*;
+import org.springframework.stereotype.Component;
 
-import java.security.Key;
 import java.util.Date;
 
+@Component
 public class JwtUtils {
 
     private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
@@ -33,24 +32,23 @@ public class JwtUtils {
                 .setSubject(principal.getUsername())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(new Date().getTime() + jwtExpirationMs))
-                .signWith(SignatureAlgorithm.HS256, key())
+                .signWith(SignatureAlgorithm.HS256, Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret)))
                 .compact();
 
     }
 
-    private Key key() {
-        return Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret));
-    }
+    public Claims getUsernameFromJwtToken(String token) {
 
-    public String getUsernameFromJwtToken(String token) {
-        return Jwts.parser().setSigningKey(key()).parseClaimsJwt(token)
-                .getBody().getSubject();
+        return Jwts.parser()
+                .setSigningKey(Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret)))
+                .parseClaimsJws(token)
+                .getBody();
     }
 
     public boolean validateJwtToken(String authenticationToken) {
 
         try {
-            Jwts.parser().setSigningKey(key()).parse(authenticationToken);
+            Jwts.parser().setSigningKey(Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret))).parse(authenticationToken);
             return true;
         } catch (MalformedJwtException e) {
             logger.error("Invalid JWT token: {}", e.getMessage());

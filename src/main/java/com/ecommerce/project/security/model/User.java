@@ -33,13 +33,13 @@ public class User implements Serializable {
     @Column(name="username", unique = true, nullable=false, length=30)
     private String username;
 
-    @Column(name="firstName", nullable=false, length=30)
+    @Column(name="firstName", length=30)
     private String firstName;
 
-    @Column(name="lastName", nullable=false, length=30)
+    @Column(name="lastName", length=30)
     private String lastName;
 
-    @Column(name="password", nullable=false, length=30)
+    @Column(name="password", nullable=false, length=100)
     private String password;
 
     @Column(name="email", unique = true, nullable=false, length=50)
@@ -82,6 +82,22 @@ public class User implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getEmail() {
