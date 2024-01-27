@@ -26,9 +26,13 @@ public class AdminController {
 
     @GetMapping("/user/{username}")
     @ResponseBody()
-    protected Optional<User> getUser(@PathVariable String username) throws UsernameNotFoundException {
-        Optional<User> user = userRepository.findByUsername(username);
-        return user;
+    protected User getUser(@PathVariable String username) throws UsernameNotFoundException {
+        User user = userRepository.findByUsername(username);
+        if (user != null) {
+            return user;
+        } else {
+            throw new UsernameNotFoundException("User with this username doesn't exist");
+        }
     }
 
 }
