@@ -1,7 +1,6 @@
 package com.ecommerce.project.security.controller;
 
 import com.ecommerce.project.security.model.User;
-import com.ecommerce.project.security.payload.request.SignupRequest;
 import com.ecommerce.project.security.services.securityinfoservice.SecurityInfoServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

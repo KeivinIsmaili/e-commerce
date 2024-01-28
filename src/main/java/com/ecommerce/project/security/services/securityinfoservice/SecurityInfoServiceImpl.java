@@ -7,6 +7,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,14 +16,17 @@ public class SecurityInfoServiceImpl implements SecurityInfoService{
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    PasswordEncoder encoder;
+
     @Override
     @Transactional
     public ResponseEntity<?> changePassword(User updatedUser) {
-        if(updatedUser.getId() != null && updatedUser.getUsername() != null) {
+        if(updatedUser.getUsername() != null) {
             User user1 = userRepository.findByUsername(updatedUser.getUsername());
             if (user1 != null) {
-                user1.setPassword(updatedUser.getPassword());
-                return ResponseEntity.ok(new MessageResponse("User password changed successfully!"));
+                user1.setPassword(encoder.encode(updatedUser.getPassword()));
+                return ResponseEntity.ok(new MessageResponse("User's password changed successfully!"));
             } else {
                 throw new UsernameNotFoundException("User with this username not found");
             }
