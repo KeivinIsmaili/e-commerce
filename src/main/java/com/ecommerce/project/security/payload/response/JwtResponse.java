@@ -1,6 +1,7 @@
 package com.ecommerce.project.security.payload.response;
 
 import java.util.List;
+import java.util.Objects;
 
 public class JwtResponse {
     private String token;
@@ -9,6 +10,9 @@ public class JwtResponse {
     private String username;
     private String email;
     private List<String> roles;
+
+    public JwtResponse() {
+    }
 
     public JwtResponse(String accessToken, Long id, String username, String email, List<String> roles) {
         this.token = accessToken;
@@ -60,5 +64,39 @@ public class JwtResponse {
 
     public List<String> getRoles() {
         return roles;
+    }
+
+    public void setRoles(List<String> roles) {
+        this.roles = roles;
+    }
+
+    @Override
+    public String toString() {
+        return "JwtResponse{" +
+                "token='" + token + '\'' +
+                ", type='" + type + '\'' +
+                ", id=" + id +
+                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", roles=" + roles +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        JwtResponse that = (JwtResponse) o;
+        return Objects.equals(token, that.token) &&
+                Objects.equals(type, that.type) &&
+                Objects.equals(id, that.id) &&
+                Objects.equals(username, that.username) &&
+                Objects.equals(email, that.email) &&
+                Objects.equals(roles, that.roles);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(token, type, id, username, email, roles);
     }
 }

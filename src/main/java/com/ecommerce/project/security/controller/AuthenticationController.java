@@ -59,7 +59,7 @@ public class AuthenticationController {
 
     @PostMapping("/signin")
     @ResponseBody
-    public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<JwtResponse> authenticateUser(@RequestBody LoginRequest loginRequest) {
 
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
@@ -72,11 +72,14 @@ public class AuthenticationController {
                 .map(item -> item.getAuthority())
                 .collect(Collectors.toList());
 
-        return ResponseEntity.ok(new JwtResponse(jwt,
-                userDetails.getId(),
-                userDetails.getUsername(),
-                userDetails.getEmail(),
-                roles));
+        JwtResponse jwtResponse = new JwtResponse();
+        jwtResponse.setAccessToken(jwt);
+        jwtResponse.setId(userDetails.getId());
+        jwtResponse.setUsername(userDetails.getUsername());
+        jwtResponse.setEmail(userDetails.getEmail());
+        jwtResponse.setRoles(roles);
+
+        return ResponseEntity.ok(jwtResponse);
     }
 
     @PostMapping("/signup")
