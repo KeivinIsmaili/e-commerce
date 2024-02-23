@@ -1,7 +1,7 @@
 package com.ecommerce.project.security.controller;
 
 import com.ecommerce.project.security.model.User;
-import com.ecommerce.project.security.services.securityinfoservice.SecurityInfoServiceImpl;
+import com.ecommerce.project.security.services.securityinfo.SecurityInfoServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,9 +15,9 @@ public class SecurityInfoController {
 
     @PutMapping("/changePassword")
     @ResponseBody
-    public ResponseEntity<?> changePassword(@RequestBody User user) {
+    public ResponseEntity<?> changePassword(@RequestBody User user)
+    {
         return securityInfoService.changePassword(user);
     }
-
 
 }

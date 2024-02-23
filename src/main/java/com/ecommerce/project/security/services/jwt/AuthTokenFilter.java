@@ -2,7 +2,7 @@ package com.ecommerce.project.security.services.jwt;
 
 import java.io.IOException;
 
-import com.ecommerce.project.security.services.userservice.UserDetailsServiceImpl;
+import com.ecommerce.project.security.services.user.UserDetailsServiceImpl;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

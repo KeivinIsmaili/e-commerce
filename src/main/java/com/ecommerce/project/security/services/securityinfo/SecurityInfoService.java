@@ -1,4 +1,4 @@
-package com.ecommerce.project.security.services.securityinfoservice;
+package com.ecommerce.project.security.services.securityinfo;
 
 import com.ecommerce.project.security.model.User;
 import org.springframework.http.ResponseEntity;
