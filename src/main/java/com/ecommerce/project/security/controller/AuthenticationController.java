@@ -19,12 +19,6 @@ public class AuthenticationController {
     @Autowired
     AuthenticationServiceImpl authenticationService;
 
-    @Autowired
-    public AuthenticationController(AuthenticationServiceImpl authenticationService)
-    {
-        this.authenticationService = authenticationService;
-    }
-
     @PostMapping("/signin")
     @ResponseBody
     public ResponseEntity<JwtResponse> authenticateUser(@RequestBody LoginRequest loginRequest)

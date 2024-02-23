@@ -52,6 +52,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         this.encoder = encoder;
     }
 
+    @Override
     public ResponseEntity<JwtResponse> authenticateUser(LoginRequest loginRequest)
     {
         Authentication authentication = authenticationManager.authenticate(
@@ -75,6 +76,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         return ResponseEntity.ok(jwtResponse);
     }
 
+    @Override
     public ResponseEntity<?> registerUser(SignupRequest signUpRequest) {
 
         if (userRepository.existsByUsername(signUpRequest.getUsername()))

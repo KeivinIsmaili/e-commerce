@@ -1,4 +1,4 @@
-package com.ecommerce.project.security.model;
+package com.ecommerce.project.domain.model;
 
 public enum EGender {
 

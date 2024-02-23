@@ -10,7 +10,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
+@Transactional
 public class SecurityInfoServiceImpl implements SecurityInfoService{
 
     @Autowired
@@ -20,19 +23,13 @@ public class SecurityInfoServiceImpl implements SecurityInfoService{
     PasswordEncoder encoder;
 
     @Override
-    @Transactional
     public ResponseEntity<?> changePassword(User updatedUser) {
-        if(updatedUser.getUsername() != null) {
-            User user1 = userRepository.findByUsername(updatedUser.getUsername());
-            if (user1 != null) {
-                user1.setPassword(encoder.encode(updatedUser.getPassword()));
-                return ResponseEntity.ok(new MessageResponse("User's password changed successfully!"));
-            } else {
-                throw new UsernameNotFoundException("User with this username not found");
-            }
-        } else {
-            throw new IllegalArgumentException("User with this id not found");
-        }
+
+        User user = Optional.ofNullable(userRepository.findByUsername(updatedUser.getUsername()))
+                .orElseThrow(() -> new UsernameNotFoundException("User with this username doesn't exist"));
+
+        user.setPassword(encoder.encode(updatedUser.getPassword()));
+        return ResponseEntity.ok(new MessageResponse("User's password changed successfully!"));
     }
 
 }
