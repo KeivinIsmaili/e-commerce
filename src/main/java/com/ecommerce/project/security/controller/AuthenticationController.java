@@ -33,17 +33,4 @@ public class AuthenticationController {
         return authenticationService.registerUser(signUpRequest);
     }
 
-    @PostMapping("/forgotUsername")
-    @ResponseBody
-    public ResponseEntity<?> forgotUsername()
-    {
-        return null;
-    }
-
-    @PostMapping("/forgotPassword")
-    @ResponseBody
-    public ResponseEntity<?> forgotPassword()
-    {
-        return null;
-    }
 }
