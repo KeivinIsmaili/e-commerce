@@ -28,7 +28,7 @@ public class RecoverController {
     public ResponseEntity<?> forgotPassword(
             @RequestParam(name = "username") String username, @RequestParam(name = "emailTo") String emailTo)
     {
-        return null;
+        return recoverService.forgotUsername(emailTo);
     }
 
 }
