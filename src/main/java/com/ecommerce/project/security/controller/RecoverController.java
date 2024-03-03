@@ -25,10 +25,9 @@ public class RecoverController {
 
     @PostMapping("/forgotPassword")
     @ResponseBody
-    public ResponseEntity<?> forgotPassword(
-            @RequestParam(name = "username") String username, @RequestParam(name = "emailTo") String emailTo)
+    public ResponseEntity<?> forgotPassword(@RequestParam(name = "username") String username, @RequestParam(name = "emailTo") String emailTo)
     {
-        return recoverService.forgotUsername(emailTo);
+        return recoverService.forgotPassword(username, emailTo);
     }
 
 }

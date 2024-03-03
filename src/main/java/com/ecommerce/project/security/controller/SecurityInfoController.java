@@ -1,6 +1,5 @@
 package com.ecommerce.project.security.controller;
 
-import com.ecommerce.project.security.model.User;
 import com.ecommerce.project.security.services.securityinfo.SecurityInfoServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -8,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequestMapping("/securityInfo")
@@ -19,9 +18,10 @@ public class SecurityInfoController {
 
     @PutMapping("/changePassword")
     @ResponseBody
-    public ResponseEntity<?> changePassword(@RequestBody User user)
+    public ResponseEntity<?> changePassword(@RequestParam(name = "newPassword") String newPassword,
+                                            @RequestParam(name = "token") String token)
     {
-        return securityInfoService.changePassword(user);
+        return securityInfoService.changePassword(newPassword, token);
     }
 
 }
