@@ -23,13 +23,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static com.ecommerce.project.utils.Constants.*;
+
 @Service
 @Transactional
 public class RecoverServiceImpl implements RecoverService {
-
-    private static final String USERNAME_RECOVER = "Your Requested Username Information";
-    private static final String AES_SECRET_KEY = "y5@,D9UF=iNjq'QD$u[}k/{2-I(ny@u'";
-    private static final String AES_CIPHER_ALGORITHM = "AES/ECB/PKCS5Padding";
 
     @Value("${spring.mail.username}")
     private String fromEmail;
@@ -107,7 +105,7 @@ public class RecoverServiceImpl implements RecoverService {
 
         String token = createPasswordResetTokenForUser(user);
 
-        String resetLink = "http://localhost:4200/reset-password?token=" + token;
+        String resetLink = "http://localhost:4200/reset-password?token=" + token + "&username=" + user.getUsername();
 
         try {
 
@@ -146,11 +144,12 @@ public class RecoverServiceImpl implements RecoverService {
 
     @Override
     public String createPasswordResetTokenForUser(User user) {
-        String encryptedToken = encryptToken(UUID.randomUUID().toString());
-        PasswordResetToken passwordResetToken = new PasswordResetToken(user, encryptedToken);
+        String token = UUID.randomUUID().toString();
+        PasswordResetToken passwordResetToken = new PasswordResetToken(user, token);
         passwordResetToken.setIssued_at(LocalDateTime.now());
         passwordResetToken.setExpires_at(passwordResetToken.getIssued_at().plusHours(1));
         tokenRepository.save(passwordResetToken);
+        String encryptedToken = encryptToken(token);
         return encryptedToken;
     }
 

@@ -6,4 +6,6 @@ public interface SecurityInfoService {
 
     ResponseEntity<?> changePassword(String newPassword, String token);
 
+    String decryptToken(String encryptedToken);
+
 }

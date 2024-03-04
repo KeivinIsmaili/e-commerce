@@ -11,7 +11,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
 import java.time.LocalDateTime;
+import java.util.Base64;
+
+import static com.ecommerce.project.utils.Constants.AES_CIPHER_ALGORITHM;
+import static com.ecommerce.project.utils.Constants.AES_SECRET_KEY;
 
 @Service
 @Transactional
@@ -31,7 +37,9 @@ public class SecurityInfoServiceImpl implements SecurityInfoService {
     {
         LocalDateTime now = LocalDateTime.now();
 
-        PasswordResetToken passwordResetToken = passwordResetTokenRepository.findByToken(token);
+        String decryptedtoken = decryptToken(token);
+
+        PasswordResetToken passwordResetToken = passwordResetTokenRepository.findByToken(decryptedtoken);
 
         if (passwordResetToken == null || now.compareTo(passwordResetToken.getIssued_at()) < 0)
         {
@@ -48,6 +56,20 @@ public class SecurityInfoServiceImpl implements SecurityInfoService {
         userRepository.save(user);
 
         return ResponseEntity.ok(new MessageResponse(user.getUsername() + "'s password changed successfully!"));
+    }
+
+    @Override
+    public String decryptToken(String encryptedToken) {
+        try {
+            SecretKeySpec secretKey = new SecretKeySpec(AES_SECRET_KEY.getBytes(), "AES");
+            Cipher cipher = Cipher.getInstance(AES_CIPHER_ALGORITHM);
+            cipher.init(Cipher.DECRYPT_MODE, secretKey);
+            byte[] decryptedBytes = cipher.doFinal(Base64.getDecoder().decode(encryptedToken));
+            return new String(decryptedBytes);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }
